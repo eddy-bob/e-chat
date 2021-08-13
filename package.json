@@ -1,0 +1,35 @@
+{
+  "name": "e-chat",
+  "version": "1.0.0",
+  "description": "a video chat app",
+  "main": "server.js",
+  "scripts": {
+    "serve": "NODE_ENV=production node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eddy-bob/e-chat.git"
+  },
+  "keywords": [
+    "node.js"
+  ],
+  "author": "eddy madu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eddy-bob/e-chat/issues"
+  },
+  "homepage": "https://github.com/eddy-bob/e-chat#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "socket.io": "^4.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
+}
