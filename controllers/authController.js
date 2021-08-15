@@ -136,9 +136,9 @@ const logout = asyncHandler(async (req, res, next) => {
 const getAllUsers = asyncHandler(async (req, res, next) => {
   const user = await userModel.find();
   if (user) {
-    return reply(res, 200, [user], "user fetched");
+    return reply(res, 200, [user], "users fetched");
   }
-  reply(res, 201, [], "no user found");
+  reply(res, 200, [], "no user found");
 });
 module.exports = {
   login,

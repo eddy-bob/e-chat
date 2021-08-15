@@ -18,7 +18,7 @@ const response = (res, statusCode, data, msg, jwt) => {
   } else {
     return res
       .status(statusCode)
-      .json({ success: true, data: [data], message: msg });
+      .json({ success: true, data: [data], message: msg, success: true });
   }
 };
 module.exports = response;

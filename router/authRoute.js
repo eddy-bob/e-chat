@@ -21,5 +21,5 @@ authRoute.post("/forgotPassword", forgotPassword);
 authRoute.post("/verifyEmail", verifyEmail);
 authRoute.get("/getAllUsers", getAllUsers);
 authRoute.use(secure).post("/logout", logout);
-authRoute.get("/getAllUsers", getAllUsers);
+authRoute.use(secure).get("/getAllUsers", getAllUsers);
 module.exports = authRoute;
