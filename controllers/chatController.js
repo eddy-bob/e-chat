@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
-export const createGroup = asyncHandler(async (req, res) => {});
+export const createGroup = asyncHandler(async (req, res) => {
+    
+});
 export const deleteGroup = asyncHandler(async (req, res) => {});
 export const sendFriendRequest = asyncHandler(async (req, res) => {});
 export const acceptFriendRequest = asyncHandler(async (req, res) => {});

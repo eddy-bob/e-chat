@@ -7,14 +7,19 @@ const {
   resetPassword,
   forgotPassword,
   verifyEmail,
+  logout,
+  getAllUsers,
 } = require("../controllers/authController.js");
 const authRoute = express.Router();
 // prevent unauthrized entry to route
-authRoute.use(secure);
+
 authRoute.post("/login", login);
 authRoute.post("/register", register);
-authRoute.post("/updatePassword", updatePassword);
-authRoute.post("/resetPassword", resetPassword);
+authRoute.use(secure).post("/updatePassword", updatePassword);
+authRoute.post("/resetPassword:token", resetPassword);
 authRoute.post("/forgotPassword", forgotPassword);
-authRoute.post("/verifyEmail", );
+authRoute.post("/verifyEmail", verifyEmail);
+authRoute.get("/getAllUsers", getAllUsers);
+authRoute.use(secure).post("/logout", logout);
+authRoute.get("/getAllUsers", getAllUsers);
 module.exports = authRoute;

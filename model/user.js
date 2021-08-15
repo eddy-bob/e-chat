@@ -8,7 +8,6 @@ const user = new Schema(
       type: String,
       required: [true, "please include a name"],
       trim: true,
-      unique: [true, "a user already exists with this email"],
     },
     email: {
       type: String,
@@ -27,19 +26,13 @@ const user = new Schema(
     },
     password: {
       type: String,
-      trim: true,
-      minlength: 8,
-      match: [
-        "^(?=.*[a-z])(?=.*[A-Z])(?=.*d)[a-zA-Zd]{8,}$",
-        "your password must containMinimum eight characters, at least one uppercase letter, one lowercase letter and one number: ",
-      ],
       select: false,
+      required: [true, "please include a password"],
     },
     phone: {
       type: Number,
       required: [true, "please incude a phone number"],
-      unique: [true, "a user already exists with that phone number"],
-      max: 15,
+      unique: true,
     },
 
     resetPasswordToken: String,
@@ -56,15 +49,15 @@ const user = new Schema(
 );
 
 user.pre("save", async function (next) {
-  if (!this.isModified(password)) {
-    next();
-  }
-  var salt = bcrypt.genSalt(10);
-  this.password = bcrypt.hash(this.password, salt);
+  const saltRounds = 10;
+  const salt = await bcrypt.hash(this.password, saltRounds);
+  this.password = salt;
+  next();
 });
 
 user.methods.comparePassword = async function (password) {
-  return await bycrypt.compare(this.password, password);
+  console.log(password + "and" + this.password);
+  return await bcrypt.compareSync(password, this.password);
 };
 user.methods.genResetPasswordToken = async function () {
   var token = crypto.randomBytes(20).toString("hex");
@@ -75,7 +68,7 @@ user.methods.genResetPasswordToken = async function () {
 };
 user.methods.getToken = async function () {
   var token = await jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES,
+    expiresIn: Date.now() + 10 * 60 * 60 * 1000,
   });
   return token;
 };
