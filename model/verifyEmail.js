@@ -6,8 +6,8 @@ const verifyEmail = new Schema({
     ref: "User",
     required: [true, "please provide an object id"],
   },
-  verificationToken: { type: String, trim: true },
-  expires: { type: Date },
+  verificationToken: { type: String, select: false },
+  expires: { type: Date, select: false },
   timestamps: Date,
 });
 verifyEmail.methods.getToken = async function () {

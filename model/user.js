@@ -2,6 +2,7 @@ const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
+
 const user = new Schema(
   {
     name: {
@@ -35,8 +36,8 @@ const user = new Schema(
       unique: true,
     },
 
-    resetPasswordToken: String,
-    resetPasswordExpire: Date,
+    resetPasswordToken: { type: String, select: false },
+    resetPasswordExpire: { type: Date, select: false },
     lastSeen: {
       type: Date,
     },
@@ -48,28 +49,21 @@ const user = new Schema(
   { timestamps: true }
 );
 
-user.pre("save", async function (next) {
-  const saltRounds = 10;
-  const salt = await bcrypt.hash(this.password, saltRounds);
-  this.password = salt;
-  next();
-});
-
 user.methods.comparePassword = async function (password) {
-  console.log(password + "and" + this.password);
-  return await bcrypt.compareSync(password, this.password);
+  return await bcrypt.compare(password, this.password);
 };
 user.methods.genResetPasswordToken = async function () {
   var token = crypto.randomBytes(20).toString("hex");
   hashToken = crypto.createHash("sha256").update(token).digest("hex");
-  this.ResetPasswordToken = hashToken;
-  this.resetPasswordExpire = Date.now() + 12 * 60 * 1000;
+
   return hashToken;
 };
+
 user.methods.getToken = async function () {
   var token = await jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
     expiresIn: Date.now() + 10 * 60 * 60 * 1000,
   });
   return token;
 };
+
 module.exports = model("userModel", user);

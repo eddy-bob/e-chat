@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const customError = require("../helpers/customErrorResponse.js");
-const sendMail = async (reciever, message, subject, next) => {
+const sendMail = async (reciever, message, subject, next, url) => {
+  var error;
   const transporter = await nodemailer.createTransport({
     port: 465,
     secure: true,
@@ -17,17 +18,23 @@ const sendMail = async (reciever, message, subject, next) => {
       from: process.env.NODE_MAILER_SENDER,
       to: reciever,
       subject: subject,
-      message: message,
+
+      html: `<p>${message}</p>
+      <a href=${url}>${url}</a> 
+      `,
     },
 
-    (err, result) => {
+    function (err, result) {
+      console.log("this is the result from nodemailer" + result);
+      console.log("this is the err from nodemailer" + err);
+      error = err;
       if (err) {
-        next(new customError(400, "unable to send mail"));
-        console.log("this is the error gotten from nodeMailer" + err);
+        error = err;
       } else {
-        return result;
+        console.log(result);
       }
     }
   );
+  return error;
 };
 module.exports = sendMail;

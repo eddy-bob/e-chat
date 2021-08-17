@@ -7,13 +7,13 @@ const secure = asyncHandler(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     var userId = req.headers.authorization.split("Bearer ")[1];
-    console.log("this is the token" + userId);
+
     jwt.verify(userId, process.env.JWT_SECRET, (err, result) => {
       if (err) {
         next(new customError(401, "not allow to access this route"));
       } else {
         req.userId = result.id;
-        console.log("this is the result " + result.id);
+
         next();
       }
     });
