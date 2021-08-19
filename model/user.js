@@ -35,16 +35,21 @@ const user = new Schema(
       required: [true, "please incude a phone number"],
       unique: true,
     },
-
+    gender: { type: String, enum: ["male,female"] },
     resetPasswordToken: { type: String, select: false },
     resetPasswordExpire: { type: Date, select: false },
     lastSeen: {
       type: Date,
     },
+    blockedFriends: { type: [String] },
+    friends: { type: [String] },
     isLoggedIn: {
       type: Boolean,
       default: false,
     },
+    groupInvite: { type: [String] },
+
+    friendRequests: { type: [String] },
   },
   { timestamps: true }
 );

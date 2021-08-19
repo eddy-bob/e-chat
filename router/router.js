@@ -4,7 +4,7 @@ const Route = express.Router();
 
 const authRoute = require("./authRoute.js");
 const userRoute = require("./userRoute.js");
-const chatRoute = require("./userRoute.js");
+const chatRoute = require("./chatRoute.js");
 
 Route.use("/auth", authRoute);
 Route.use("/user", userRoute);

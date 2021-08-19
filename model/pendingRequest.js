@@ -1,16 +1,17 @@
-const { Schema } = require("mongoose");
-const pendingFriendRequest = new Schema({
-  user: {
-    type: Schema.objectId,
-    ref: "user",
-    required: [true, "please provide an object id"],
-  },
-  pendingFriend: {
-    type: Schema.objectId,
-    ref: "user",
+const { Schema, model } = require("mongoose");
+const pendingRequest = new Schema({
+  creator: {
+    type: Schema.ObjectId,
+    ref: "User",
     required: [true, "please provide an object id"],
   },
 
+  pendingFriend: {
+    type: String,
+    unique: true,
+    required: [true, "please provide a friend name"],
+  },
+  inviteToken: String,
   createdAt: Date,
 });
-module.exports = model("pendingFriendRequest", pendingFriendRequest);
+module.exports = model("pendingRequest", pendingRequest);

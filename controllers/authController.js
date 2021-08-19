@@ -209,13 +209,14 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 const logout = asyncHandler(async (req, res, next) => {
   const user = await userModel.findByIdAndUpdate(
     req.userId,
-    { isLoggedIn: false },
+    { isLoggedIn: false, lastSeen: Date.now() },
     { new: true, runValidators: true }
   );
 
   if (!user) {
     res.status(200).json({ message: "not found" });
   } else {
+   
     return res.status(200).json({
       success: true,
       message: "logged out successefully",

@@ -1,14 +1,17 @@
-const { Schema } = require("mongoose");
-const Group = new Schema({
-  creator: {
-    type: Schema.objectId,
-    ref: "user",
-    required: [true, "please provide an object id"],
+const { Schema, model } = require("mongoose");
+const Group = new Schema(
+  {
+    creator: {
+      type: Schema.ObjectId,
+      ref: "user",
+      required: [true, "please provide an object id"],
+    },
     groupName: {
       type: String,
-      required: [true, "please add a  group name"],
-      trim: true,
       unique: [true, "a group already exists with that name"],
+      required: [true, "please add a group name "],
+
+      trim: true,
     },
     description: {
       type: String,
@@ -17,13 +20,16 @@ const Group = new Schema({
       trim: true,
     },
     photo: { type: String, default: "mypic.jpg" },
-    chat: { type: [String], sender: { type: String } },
+    chat: { type: [String] },
     groupMembers: {
       type: [String],
-     
     },
-    membership:{}
+    admin: { type: [String] },
+    pendingMembers: { type: [String] },
+
     createdAt: Date,
   },
-});
+  { timestamps: true }
+);
+
 module.exports = model("chatGroup", Group);
